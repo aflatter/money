@@ -8,8 +8,8 @@ PKG_VERSION = "1.0.0"
 PKG_NAME = "money"
 
 PKG_FILES = FileList[
-    "lib/**/*", "examples/**/*", "[A-Z]*", "rakefile"
-].exclude(/\.svn$/)
+    "lib/**/*", "test/*", "[A-Z]*", "rakefile"
+].exclude(/\bCVS\b|~$/)
 
 desc "Default Task"
 task :default => [ :test ]
@@ -58,20 +58,20 @@ end
 
 desc "Packing generator to tgz"
 task :package => [:cleanup] do
-  system %{ cd ..; tar -czvf #{PKG_NAME}.tar.gz #{PKG_NAME} }
-  system %{ cd ..; zip -r #{PKG_NAME}.zip #{PKG_NAME} }
+  system %{ tar -czvf ../#{PKG_NAME}.tar.gz #{PKG_FILES} }
+#  system %{ cd ..; zip -r #{PKG_NAME}.zip #{PKG_NAME} }
 end
 
 desc "Sending package to server"
 task :upload => [:package, :rdoc] do
   publisher = Rake::CompositePublisher.new
   publisher.add Rake::SshFilePublisher.new("leetsoft.com", "leetsoft.com/htdocs/rails/money", "..", "#{PKG_NAME}.tar.gz")
-  publisher.add Rake::SshFilePublisher.new("leetsoft.com", "leetsoft.com/htdocs/rails/money", "..", "#{PKG_NAME}.zip")
+#  publisher.add Rake::SshFilePublisher.new("leetsoft.com", "leetsoft.com/htdocs/rails/money", "..", "#{PKG_NAME}.zip")
   publisher.add Rake::SshDirPublisher.new("leetsoft.com", "leetsoft.com/htdocs/rails/money", "doc")
   publisher.upload
 end
 
 task :rm_packages do
   system %{ cd ..; rm #{PKG_NAME}.tar.gz }
-  system %{ cd ..; rm #{PKG_NAME}.zip }
+#  system %{ cd ..; rm #{PKG_NAME}.zip }
 end

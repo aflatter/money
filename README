@@ -14,9 +14,7 @@ exporting.
 
 == Download
 
-tgz: http://www.leetsoft.com/rails/money/money.tar.gz
-
-zip: http://www.leetsoft.com/rails/money/money.zip
+http://www.leetsoft.com/rails/money/money.tar.gz
 
 If you plan to enhance this class please get a copy from svn so that
 you can easily submit patches
