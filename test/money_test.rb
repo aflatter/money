@@ -44,6 +44,17 @@ class MoneyTest < Test::Unit::TestCase
     assert_equal Money.us_dollar(85), @can1         
   end
   
+  def test_multiply    
+    assert_equal Money.ca_dollar(5500), Money.ca_dollar(100) * 55    
+    assert_equal Money.ca_dollar(150), Money.ca_dollar(100) * 1.50
+    assert_equal Money.ca_dollar(50), Money.ca_dollar(100) * 0.50
+  end
+
+  def test_divide
+    assert_equal Money.ca_dollar(100), Money.ca_dollar(5500) / 55    
+    assert_equal Money.ca_dollar(100), Money.ca_dollar(200) / 2    
+  end
+  
   def test_formatting
 
     assert_equal "free", Money.ca_dollar(0).format
@@ -60,16 +71,10 @@ class MoneyTest < Test::Unit::TestCase
     assert_equal "$5.70 <span class=\"currency\">CAD</span>", Money.ca_dollar(570).format([:html, :with_currency])
     
   end
-  
-  def test_multiplication
-    assert_equal Money.ca_dollar(150), Money.ca_dollar(100) * 1.50
-    assert_equal Money.ca_dollar(50), Money.ca_dollar(100) / 0.50
     
-  end
-  
   def test_xml
     
-    assert_equal 8442, (Money.ca_dollar(3752) * 3 / 0.75).cents
+    assert_equal 3752 * 3 / 0.75, (Money.ca_dollar(3752) * 3 / 0.75).cents
     
     xml = XmlExporter.new    
     Money.ca_dollar(1000).export(xml)

@@ -72,14 +72,14 @@ class Money
     @cents.to_i
   end
   
-  # multipicate money by fixnum
+  # multiply money by fixnum
   def *(fixnum)
     Money.new(cents * fixnum, currency)    
   end
 
-  # devide money by fixnum
+  # divide money by fixnum
   def /(fixnum)
-    Money.new(cents * fixnum, currency)    
+    Money.new(cents / fixnum, currency)    
   end
   
   
@@ -129,7 +129,7 @@ class Money
     format(:with_currency)
   end
   
-  # Recieve the aamount of this money object in another currency   
+  # Recieve the amount of this money object in another currency   
   def exchange_to(other_currency)
     rate = EXCHANGE_RATES["#{currency}_TO_#{other_currency}"] or raise "Can't find required exchange rate"
     
