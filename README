@@ -14,7 +14,13 @@ exporting.
 
 == Download
 
-http://www.leetsoft.com/rails/money/money.tar.gz
+
+Preferred method of installation is gem: 
+
+gem install -s http://dist.leetsoft.com money 
+
+Alternatively you can get the library packed
+http://dist.leetsoft.com/pkg/
 
 If you plan to enhance this class please get a copy from svn so that
 you can easily submit patches
