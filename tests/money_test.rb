@@ -1,7 +1,6 @@
 $:.unshift(File.dirname(__FILE__) + '/../lib')
 
 require 'test/unit'
-require 'exporter/xml'
 require 'money'
 
 class MoneyTest < Test::Unit::TestCase
@@ -12,6 +11,9 @@ class MoneyTest < Test::Unit::TestCase
     @can2  = Money.ca_dollar(200)
     @can3  = Money.ca_dollar(300)
     @us1   = Money.us_dollar(100)
+    
+    Money.bank = NoExchangeBank.new
+    Money.default_currency = "USD"
     
   end
   
@@ -35,15 +37,27 @@ class MoneyTest < Test::Unit::TestCase
       
   end
   
-  def test_convert
-        
-    assert_equal true, @can1 < @us1
-    assert_equal Money.ca_dollar(114), @us1.exchange_to("CAD") 
-    assert_equal Money.ca_dollar(114), @us1 
-    assert_equal Money.us_dollar(85), @can1.exchange_to("USD") 
-    assert_equal Money.us_dollar(85), @can1         
+  def test_default_currency
+    
+    assert_equal Money.new(100).currency, "USD"
+    Money.default_currency = "CAD"
+    assert_equal Money.new(100).currency, "CAD"
   end
   
+  def test_default_exchange   
+    assert_raise(Money::MoneyError) do
+      Money.us_dollar(100).exchange_to("CAD")
+    end   
+  end
+  
+  def test_real_exchange   
+    Money.bank = VariableExchangeBank.new
+    Money.bank.add_rate("USD", "CAD", 1.24515)
+    Money.bank.add_rate("CAD", "USD", 0.803115)
+    assert_equal Money.us_dollar(100).exchange_to("CAD"), Money.ca_dollar(124)
+    assert_equal Money.ca_dollar(100).exchange_to("USD"), Money.us_dollar(80)
+  end
+    
   def test_multiply    
     assert_equal Money.ca_dollar(5500), Money.ca_dollar(100) * 55    
     assert_equal Money.ca_dollar(150), Money.ca_dollar(100) * 1.50
@@ -60,30 +74,15 @@ class MoneyTest < Test::Unit::TestCase
     assert_equal "free", Money.ca_dollar(0).format
     assert_equal "$1.00", @can1.format 
     assert_equal "$1.00 CAD", @can1.format(:with_currency)
-    assert_equal "$0.85 USD", @can1.as_us_dollar.format(:with_currency)
 
     assert_equal "$1", @can1.format(:no_cents)
     assert_equal "$5", Money.ca_dollar(570).format(:no_cents)
 
     assert_equal "$5 CAD", Money.ca_dollar(570).format([:no_cents, :with_currency])
+    assert_equal "$5 CAD", Money.ca_dollar(570).format(:no_cents, :with_currency)
     assert_equal "$390", Money.ca_dollar(39000).format(:no_cents)
 
     assert_equal "$5.70 <span class=\"currency\">CAD</span>", Money.ca_dollar(570).format([:html, :with_currency])
-    
-  end
-    
-  def test_xml
-    
-    assert_equal 3752 * 3 / 0.75, (Money.ca_dollar(3752) * 3 / 0.75).cents
-    
-    xml = XmlExporter.new    
-    Money.ca_dollar(1000).export(xml)
-    assert_equal "<money currency='CAD'>1000</money>", xml.to_s
-
-    xml = XmlExporter.new    
-    Money.us_dollar(1000).export(xml)
-    assert_equal "<money currency='USD'>1000</money>", xml.to_s
-    
     
   end
   

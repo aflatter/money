@@ -14,18 +14,13 @@ exporting.
 
 == Download
 
-
 Preferred method of installation is gem: 
 
-gem install -s http://dist.leetsoft.com money 
+  gem install --source http://dist.leetsoft.com money 
 
 Alternatively you can get the library packed
-http://dist.leetsoft.com/pkg/
-
-If you plan to enhance this class please get a copy from svn so that
-you can easily submit patches
-
-svn: svn://leetsoft.com/money/trunk
+  
+  http://dist.leetsoft.com/pkg/
 
 == Useage
 
@@ -34,7 +29,7 @@ object in your models. The following example requires a cents and a currency fie
 
   class ProductUnit < ActiveRecord::Base
     belongs_to :product
-    composed_of :price, :class_name => "Money", :mapping => %w(cents currency)
+    composed_of :price, :class_name => "Money", :mapping => [%w(cents cents) %(currency currency)]
 
     private        
       validate :cents_not_zero
@@ -47,6 +42,33 @@ object in your models. The following example requires a cents and a currency fie
       validates_uniqueness_of :sku        
   end
   
+== Class configuration
+
+Two const class variables are available to tailor Money to your needs. 
+If you don't need currency exchange at all, just ignore those.
+
+=== Default Currency
+
+By default Money defaults to USD as its currency. This can be overwritten using
+
+  Money.default_currency = "CAD"
+  
+If you use rails, the environment.rb is a very good place to put this. 
+
+=== Currency Exchange
+
+The second parameter is a bit more complex. It lets you provide your own implementation of the 
+currency exchange service. By default Money throws an exception when trying to call .exchange_to. 
+
+A second minimalist implementation is provided which lets you supply custom exchange rates:
+
+  Money.bank = VariableExchangeBank.new 
+  Money.bank.add_rate("USD", "CAD", 1.24515)
+  Money.bank.add_rate("CAD", "USD", 0.803115)
+  Money.us_dollar(100).exchange_to("CAD") => Money.ca_dollar(124)
+  Money.ca_dollar(100).exchange_to("USD") => Money.us_dollar(80)
+
+There is nothing stopping you from creating bank objects which scrape www.xe.com for the current rates or just return rand(2)
   
 == Code
 
