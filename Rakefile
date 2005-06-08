@@ -9,10 +9,6 @@ PKG_VERSION = "1.3.2"
 PKG_NAME = "money"
 PKG_FILE_NAME = "#{PKG_NAME}-#{PKG_VERSION}"
 
-RUBY_FORGE_PROJECT = 'money'
-RUBY_FORGE_USER = 'xal'
-RELEASE_NAME  = "REL #{PKG_VERSION}"
-
 PKG_FILES = FileList[
     "lib/**/*", "tests/*", "[A-Z]*", "rakefile"
 ].exclude(/\bCVS\b|~$/)
@@ -106,7 +102,6 @@ end
 RUBY_FORGE_PROJECT = 'money'
 RUBY_FORGE_USER = 'xal'
 RELEASE_NAME  = "REL #{PKG_VERSION}"
-
 
 desc "Publish the release files to RubyForge."
 task :release => [:gem] do
