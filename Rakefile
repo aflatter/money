@@ -5,7 +5,7 @@ require 'rake/rdoctask'
 require 'rake/gempackagetask'
 require 'rake/contrib/rubyforgepublisher'
 
-PKG_VERSION = "1.5"
+PKG_VERSION = "1.5.5"
 PKG_NAME = "money"
 PKG_FILE_NAME = "#{PKG_NAME}-#{PKG_VERSION}"
 
@@ -80,7 +80,7 @@ spec = Gem::Specification.new do |s|
   s.version = PKG_VERSION
   s.summary = "Class aiding in the handling of Money."
   s.description = ['Class aiding in the handling of Money and Currencies.',
-                   'It supports easy pluggable bank objects for customized exchange strategies.'
+                   'It supports easy pluggable bank objects for customized exchange strategies.',
                    'Can be used as composite in ActiveRecord tables.'].join('\n')
   s.has_rdoc = true
 

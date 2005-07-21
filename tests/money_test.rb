@@ -70,8 +70,11 @@ class MoneyTest < Test::Unit::TestCase
   end
   
   def test_empty_can_exchange_currency
-    assert_equal Money.ca_dollar(100), Money.empty + Money.ca_dollar(100)
-    assert_equal Money.us_dollar(-100), Money.empty - Money.us_dollar(100)
+    assert_equal Money.ca_dollar(100), Money.empty('USD') + Money.ca_dollar(100)
+    assert_equal Money.ca_dollar(100), Money.ca_dollar(100) + Money.empty('USD')
+    
+    assert_equal Money.ca_dollar(-100), Money.empty('USD') - Money.ca_dollar(-100)
+    assert_equal Money.ca_dollar(-100), Money.ca_dollar(-100) - Money.empty('USD')
   end
   
   def test_formatting

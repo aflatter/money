@@ -66,7 +66,10 @@ class Money
   end
 
   def +(other_money)
-    if self.cents == 0 or currency == other_money.currency
+    return other_money.dup if cents.zero? 
+    return dup if other_money.cents.zero?
+
+    if currency == other_money.currency
       Money.new(cents + other_money.cents, other_money.currency)
     else
       Money.new(cents + other_money.exchange_to(currency).cents,currency)
@@ -74,6 +77,9 @@ class Money
   end
 
   def -(other_money)
+    return other_money.dup if cents.zero? 
+    return dup if other_money.cents.zero?
+
     if self.cents == 0 or currency == other_money.currency
       Money.new(cents - other_money.cents, other_money.currency)
     else
