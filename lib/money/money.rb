@@ -66,16 +66,16 @@ class Money
   end
 
   def +(other_money)
-    if currency == other_money.currency
-      Money.new(cents + other_money.cents,currency)
+    if self.cents == 0 or currency == other_money.currency
+      Money.new(cents + other_money.cents, other_money.currency)
     else
       Money.new(cents + other_money.exchange_to(currency).cents,currency)
     end   
   end
 
   def -(other_money)
-    if currency == other_money.currency
-      Money.new(cents - other_money.cents, currency)
+    if self.cents == 0 or currency == other_money.currency
+      Money.new(cents - other_money.cents, other_money.currency)
     else
       Money.new(cents - other_money.exchange_to(currency).cents, currency)
     end   

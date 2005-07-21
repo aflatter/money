@@ -22,7 +22,7 @@ Alternatively you can get the library packed
   
   http://dist.leetsoft.com/pkg/
 
-== Useage
+== Usage
 
 Use the compose_of helper to let active record deal with embedding the money
 object in your models. The following example requires a cents and a currency field.

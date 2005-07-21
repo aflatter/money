@@ -24,3 +24,10 @@ class String
     Money.new(cents, currency)
   end
 end
+
+# Allow writing of Nil.to_money => Money.empty
+class NilClass
+  def to_money
+    Money.empty
+  end  
+end

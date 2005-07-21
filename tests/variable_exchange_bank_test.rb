@@ -3,7 +3,7 @@ $:.unshift(File.dirname(__FILE__) + '/../lib')
 require 'test/unit'
 require 'money'
 
-class NoExchangeBankTest < Test::Unit::TestCase
+class VariableExchangeBankTest < Test::Unit::TestCase
   
   def setup
     @bank = VariableExchangeBank.new

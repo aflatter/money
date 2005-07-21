@@ -14,5 +14,11 @@ class NoExchangeBankTest < Test::Unit::TestCase
       @bank.reduce(Money.us_dollar(100), "CAD")
     end
   end
+
+  def test_work_if_no_exchange_is_required
+    assert_nothing_raised do
+      @bank.reduce(Money.ca_dollar(100), "CAD")
+    end
+  end
   
 end

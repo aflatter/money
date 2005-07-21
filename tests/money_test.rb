@@ -69,6 +69,11 @@ class MoneyTest < Test::Unit::TestCase
     assert_equal Money.ca_dollar(100), Money.ca_dollar(200) / 2    
   end
   
+  def test_empty_can_exchange_currency
+    assert_equal Money.ca_dollar(100), Money.empty + Money.ca_dollar(100)
+    assert_equal Money.us_dollar(-100), Money.empty - Money.us_dollar(100)
+  end
+  
   def test_formatting
 
     assert_equal "free", Money.ca_dollar(0).format
