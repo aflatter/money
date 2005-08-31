@@ -5,7 +5,7 @@ require 'rake/rdoctask'
 require 'rake/gempackagetask'
 require 'rake/contrib/rubyforgepublisher'
 
-PKG_VERSION = "1.5.5"
+PKG_VERSION = "1.5.6"
 PKG_NAME = "money"
 PKG_FILE_NAME = "#{PKG_NAME}-#{PKG_VERSION}"
 

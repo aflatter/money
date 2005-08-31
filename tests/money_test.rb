@@ -77,6 +77,11 @@ class MoneyTest < Test::Unit::TestCase
     assert_equal Money.ca_dollar(-100), Money.ca_dollar(-100) - Money.empty('USD')
   end
   
+  def test_to_s
+    assert_equal "1.00", @can1.to_s
+    assert_equal "390.50", Money.ca_dollar(39050).to_s
+  end
+  
   def test_formatting
 
     assert_equal "free", Money.ca_dollar(0).format

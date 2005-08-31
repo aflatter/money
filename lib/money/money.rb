@@ -144,9 +144,9 @@ class Money
     formatted
   end
 
-  # Money.ca_dollar(100).to_s => "$1.00 CAD"
+  # Money.ca_dollar(100).to_s => "1.00"
   def to_s
-    format(:with_currency)
+    sprintf("%.2f", cents.to_f / 100  )
   end
 
   # Recieve the amount of this money object in another currency   
