@@ -49,7 +49,7 @@ class Money
   # Alternativly you can use the convinience methods like 
   # Money.ca_dollar and Money.us_dollar 
   def initialize(cents, currency = default_currency)
-    @cents, @currency = cents, currency
+    @cents, @currency = cents.round, currency
   end
 
   # Do two money objects equal? Only works if both objects are of the same currency
@@ -100,6 +100,11 @@ class Money
   # divide money by fixnum
   def /(fixnum)
     Money.new(cents / fixnum, currency)    
+  end
+  
+  # Test if the money amount is zero
+  def zero?
+    cents == 0 
   end
 
 

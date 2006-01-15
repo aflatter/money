@@ -1,0 +1,6 @@
+CHANGELOG
+---
+
+* Removed nil.to_money. This would yield dangerous bugs..
+
+* Added money.zero? to mimik Numeric.zero?

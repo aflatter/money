@@ -50,6 +50,12 @@ class MoneyTest < Test::Unit::TestCase
     end   
   end
   
+  def test_zero
+    assert_equal true, Money.empty.zero?
+    assert_equal false, Money.ca_dollar(1).zero?
+    assert_equal false, Money.ca_dollar(-1).zero?
+  end
+  
   def test_real_exchange   
     Money.bank = VariableExchangeBank.new
     Money.bank.add_rate("USD", "CAD", 1.24515)

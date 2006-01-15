@@ -19,15 +19,8 @@ class String
     
     # Get the cents amount
     matches = scan /(\-?\d+(\.(\d+))?)/
-    cents = matches[0] ? (matches[0][0].to_f * 100).round : 0
+    cents = matches[0] ? (matches[0][0].to_f * 100) : 0
     
     Money.new(cents, currency)
   end
-end
-
-# Allow writing of Nil.to_money => Money.empty
-class NilClass
-  def to_money
-    Money.empty
-  end  
 end

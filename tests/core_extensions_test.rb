@@ -24,7 +24,9 @@ class CoreExtensionsTest < Test::Unit::TestCase
   end
   
   def test_nil
-    assert_equal Money.empty, nil.to_money
+    assert_raise(NoMethodError) do
+      nil.to_money
+    end
   end
 
 end
