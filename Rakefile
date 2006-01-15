@@ -4,10 +4,29 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 require 'rake/gempackagetask'
 require 'rake/contrib/rubyforgepublisher'
+require 'fileutils'
 
-PKG_VERSION = "1.5.6"
+PKG_VERSION = "1.6.0"
 PKG_NAME = "money"
 PKG_FILE_NAME = "#{PKG_NAME}-#{PKG_VERSION}"
+
+
+# fix for ruby 1.9.4's fileutils.rb
+module FileUtils
+  def cd(dir, options = {}, &block) # :yield: dir
+    fu_check_options options, :verbose, :noop
+    fu_output_message "cd #{dir}" if options[:verbose]
+    Dir.chdir(dir, &block)
+    fu_output_message 'cd -' if options[:verbose] and block
+  end
+  module_function :cd
+
+  alias chdir cd
+  module_function :chdir
+
+  OPT_TABLE['cd']    =
+  OPT_TABLE['chdir'] = %w( verbose )
+end
 
 PKG_FILES = FileList[
     "lib/**/*", "tests/*", "[A-Z]*", "rakefile"
