@@ -88,6 +88,11 @@ class MoneyTest < Test::Unit::TestCase
     assert_equal "390.50", Money.ca_dollar(39050).to_s
   end
   
+  def test_substract_from_zero
+   assert_equal -12.to_money, Money.empty - (12.to_money)
+  end
+  
+  
   def test_formatting
 
     assert_equal "free", Money.ca_dollar(0).format
